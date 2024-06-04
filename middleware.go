@@ -20,8 +20,14 @@ func (cog *Cognito) Authorize(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"message": err.Error()})
 		return
 	}
-	c.Set("token", token)
-	c.Set("email", token.Claims.(jwt.MapClaims)["email"])
+
+	c.Set("Auth", map[string]interface{}{
+		"token":         token,
+		"email":         token.Claims.(jwt.MapClaims)["email"],
+		"emailVerified": token.Claims.(jwt.MapClaims)["email_verified"],
+		"sub":           token.Claims.(jwt.MapClaims)["sub"],
+	})
+
 	c.Next()
 }
 
