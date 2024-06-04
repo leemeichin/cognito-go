@@ -17,7 +17,7 @@ func (cog *Cognito) Authorize(c *gin.Context) {
 	}
 	token, err := cog.VerifyToken(tokenHeader)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"message": "invalid token"})
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"message": err})
 		return
 	}
 	c.Set("token", token)
